@@ -163,6 +163,19 @@ For example:
 u-root -files "root-fs/usr/bin/runc:usr/bin/run"
 ```
 
+### Framebuffer
+
+For framebuffer support, append a VESA mode via the `vga` kernel parameter:
+
+```shell
+qemu-system-x86_64 \
+  -kernel path/to/kernel \
+  -initrd /tmp/initramfs.linux_amd64.cpio \
+  -append "vga=786"
+```
+
+For a list of modes, refer to the [Linux kernel documentation](https://github.com/torvalds/linux/blob/master/Documentation/fb/vesafb.rst#how-to-use-it).
+
 ## Getting Packages of TinyCore
 
 Using the `tcz` command included in u-root, you can install tinycore linux
