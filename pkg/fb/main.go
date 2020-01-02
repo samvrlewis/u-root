@@ -75,7 +75,7 @@ func DrawScaledImageAt(img image.Image, posx int, posy int, factor int) {
   buf = make([]byte, width*height*bpp)
   DrawScaledOnBufAt(buf, img, posx, posy, factor, width, bpp)
   size := 3
-  for digit := 0; digit < 9; digit++ {
+  for digit := 0; digit <= 9; digit++ {
     DrawDigitAt(buf, digit, 205 + digit*15, 130, width, bpp, size)
   }
   ioutil.WriteFile("/dev/fb0", buf, 0600)
