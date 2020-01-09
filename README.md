@@ -176,6 +176,33 @@ qemu-system-x86_64 \
 
 For a list of modes, refer to the [Linux kernel documentation](https://github.com/torvalds/linux/blob/master/Documentation/fb/vesafb.rst#how-to-use-it).
 
+### Entropy / Random Number Generator
+
+Some utilities, e.g., `dhclient`, require entropy to be present. For a speedy
+virtualized random number generator, the kernel should have the following:
+```
+CONFIG_VIRTIO_PCI=y
+CONFIG_HW_RANDOM_VIRTIO=y
+CONFIG_CRYPTO_DEV_VIRTIO=y
+```
+
+Then you can run your kernel in QEMU with a `virtio-rng-pci` device:
+```sh
+qemu-system-x86_64 \
+  -device virtio-rng-pci \
+  -kernel vmlinuz \
+  -initrd /tmp/initramfs.linux_amd64.cpio
+```
+
+In addition, you can pass your host's RNG:
+```sh
+qemu-system-x86_64 \
+  -object rng-random,filename=/dev/urandom,id=rng0 \
+  -device virtio-rng-pci,rng=rng0 \
+  -kernel vmlinuz \
+  -initrd /tmp/initramfs.linux_amd64.cpio
+```
+
 ## Getting Packages of TinyCore
 
 Using the `tcz` command included in u-root, you can install tinycore linux
